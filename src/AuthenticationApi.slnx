@@ -1,6 +1,6 @@
 <Solution>
   <Folder Name="/Api/">
-    <Project Path="Auth.Api/Auth.Api.csproj" Id="23d2a7b1-ed0d-4ad5-8742-29883bf63c0a" />
+    <Project Path="Auth.Api/Auth.Api.csproj" Id="a039d664-621b-4cf6-b641-f8484e19bfe2" />
   </Folder>
   <Folder Name="/Application/">
     <Project Path="Auth.Application/Auth.Application.csproj" Id="85300e08-b53d-41c5-9dc0-e5514803bb4d" />
