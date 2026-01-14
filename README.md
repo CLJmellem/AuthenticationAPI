@@ -1,382 +1,175 @@
 # Authentication API
 
-## 1. Descrição do Projeto
+Uma API RESTful de autenticação construída com .NET 10, seguindo princípios de Clean Architecture e utilizando MongoDB como banco de dados.
 
-A **Authentication API** é uma API RESTful desenvolvida em .NET 10 que fornece funcionalidades de autenticação e gerenciamento de usuários. O projeto foi construído seguindo os princípios de Clean Architecture, separando responsabilidades em camadas distintas e utilizando padrões modernos de desenvolvimento.
-
-### Tecnologias Utilizadas
-
-#### Framework e Linguagem
-- **.NET 10** - Framework principal
-- **C# 14.0** - Linguagem de programação
-
-#### Arquitetura e Padrões
-- **Clean Architecture** - Separação em camadas (Domain, Application, Infrastructure, API)
-- **CQRS Pattern** - Utilizando MediatR para separação de comandos e queries
-- **Repository Pattern** - Abstração de acesso a dados
-- **Pipeline Behavior** - Para validação automática de requests
-
-#### Bibliotecas e Pacotes
-
-**API Layer:**
-- `Microsoft.AspNetCore.OpenApi` (10.0.1) - Geração de especificação OpenAPI
-- `Scalar.AspNetCore` (1.2.60) - Documentação interativa da API
-- `MediatR` (12.4.1) - Implementação do padrão Mediator
-
-**Application Layer:**
-- `MediatR` (12.4.1) - Orquestração de comandos e queries
-- `FluentValidation` (11.9.2) - Validação de dados
-- `FluentValidation.DependencyInjectionExtensions` (11.9.2) - Integração com DI
-- `BCrypt.Net-Next` (4.0.3) - Hashing de senhas
-
-**Infrastructure Layer:**
-- `MongoDB.Driver` (2.28.0) - Cliente MongoDB para persistência
-- `BCrypt.Net-Next` (4.0.3) - Criptografia de senhas
-- `Microsoft.Extensions.Options.ConfigurationExtensions` (8.0.0) - Configurações
-
-#### Banco de Dados
-- **MongoDB** - Banco de dados NoSQL para persistência
-
-### Estrutura do Projeto
-
-```
-src/
-├── Auth.Api/                    # Camada de apresentação (Controllers, Middleware)
-│   ├── Controllers/
-│   │   └── v1/
-│   │       └── AuthenticationController.cs
-│   ├── Configuration/
-│   │   └── Bootstrapper.cs     # Configuração de DI
-│   ├── Middleware/
-│   │   └── ExceptionHandlingMiddleware.cs
-│   └── Program.cs
-│
-├── Auth.Application/            # Camada de aplicação (Casos de uso, DTOs)
-│   ├── Commands/
-│   │   └── Register/
-│   │       ├── RegisterUserCommandHandler.cs
-│   │       └── RegisterUserCommandValidator.cs
-│   ├── Behaviors/
-│   │   └── ValidationBehavior.cs
-│   ├── DTOs/
-│   ├── Interfaces/
-│   └── Constants/
-│
-├── Auth.Domain/                 # Camada de domínio (Entidades, Interfaces)
-│   ├── Entities/
-│   │   ├── User.cs
-│   │   └── Interface/
-│   ├── Commands/
-│   │   └── Register/
-│   ├── Interfaces/
-│   ├── Enums/
-│   └── Exceptions/
-│
-├── Auth.Infrastructure/         # Camada de infraestrutura (Persistência, Serviços)
-│   ├── Persistence/
-│   │   └── MongoDbContext.cs
-│   ├── Repositories/
-│   │   ├── BaseRepository.cs
-│   │   └── UserRepository.cs
-│   ├── Services/
-│   │   └── EncryptionService.cs
-│   └── Configuration/
-│       └── MongoDbSettings.cs
-│
-└── Auth.Test/                   # Testes unitários e de integração
-```
-
-### Funcionalidades Atuais (v1)
-
-- ✅ Registro de usuários com validação completa
-- ✅ Criptografia de senhas com BCrypt
-- ✅ Validação de dados com FluentValidation
-- ✅ Tratamento global de exceções
-- ✅ Documentação automática com Scalar/OpenAPI
-- ✅ Persistência em MongoDB
+[![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![C#](https://img.shields.io/badge/C%23-14.0-239120?logo=csharp)](https://docs.microsoft.com/dotnet/csharp/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-6.0-47A248?logo=mongodb)](https://www.mongodb.com/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
 
-## 2. Como Utilizar o Projeto
+## 🚀 Início Rápido
 
 ### Pré-requisitos
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [MongoDB](https://www.mongodb.com/try/download/community) (ou Docker)
 
-1. **.NET 10 SDK** instalado
-   ```bash
-   # Verificar instalação
-   dotnet --version
-   ```
+### Instalação em 3 Passos
 
-2. **MongoDB** instalado e em execução
-   - Download: https://www.mongodb.com/try/download/community
-   - Ou via Docker:
-   ```bash
-   docker run -d -p 27017:27017 --name mongodb mongo:latest
-   ```
-
-3. **IDE** (opcional, mas recomendado)
-   - Visual Studio 2022 (17.12 ou superior)
-   - Visual Studio Code com extensão C#
-   - JetBrains Rider
-
-### Passos para Configuração
-
-#### 1. Clone o Repositório
 ```bash
+# 1. Clone o repositório
 git clone https://github.com/CLJmellem/AuthenticationAPI.git
 cd AuthenticationAPI
-```
 
-#### 2. Configure o MongoDB
+# 2. Configure o MongoDB (opcional se estiver usando padrões locais)
+# Edite src/Auth.Api/appsettings.json se necessário
 
-Edite o arquivo `src/Auth.Api/appsettings.json` com suas configurações:
-
-```json
-{
-  "MongoDbSettings": {
-    "ConnectionString": "mongodb://localhost:27017",
-    "DatabaseName": "FinanceProject"
-  }
-}
-```
-
-**Nota:** Para ambientes de produção, utilize variáveis de ambiente ou Azure Key Vault para armazenar credenciais.
-
-#### 3. Restaure as Dependências
-```bash
-cd src
-dotnet restore
-```
-
-#### 4. Execute a Aplicação
-```bash
-cd Auth.Api
+# 3. Execute a aplicação
+cd src/Auth.Api
 dotnet run
 ```
 
-A API estará disponível em:
-- HTTP: `http://localhost:5145`
-- HTTPS: `https://localhost:7035`
+### MongoDB via Docker (Recomendado)
 
-#### 5. Acesse a Documentação Interativa
+```bash
+docker run -d -p 27017:27017 --name mongodb mongo:latest
+```
 
-**Scalar (Recomendado):**
+### Acesse a Documentação Interativa
+
+Após iniciar a aplicação, acesse:
 ```
 https://localhost:7035/scalar/v1
 ```
 
-**OpenAPI Spec:**
-```
-https://localhost:7035/openapi/v1.json
-```
+---
 
-### Executando com Perfis Específicos
+## 📋 Funcionalidades
 
-**Perfil HTTP:**
-```bash
-dotnet run --launch-profile http
-```
+### ✅ Implementado (v1)
+- Registro de usuários com validação robusta
+- Criptografia de senhas (BCrypt)
+- Validação automática com FluentValidation
+- Tratamento global de exceções
+- Documentação interativa (Scalar/OpenAPI)
+- Persistência em MongoDB
 
-**Perfil HTTPS:**
-```bash
-dotnet run --launch-profile https
-```
-
-**Perfil Scalar (com navegador):**
-```bash
-dotnet run --launch-profile scalar
-```
-
-### Executando os Testes
-```bash
-cd src/Auth.Test
-dotnet test
-```
-
-### Configuração para Desenvolvimento
-
-#### Variáveis de Ambiente (Opcional)
-Crie um arquivo `appsettings.Development.json`:
-
-```json
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Debug",
-      "Microsoft.AspNetCore": "Information"
-    }
-  },
-  "MongoDbSettings": {
-    "ConnectionString": "mongodb://localhost:27017",
-    "DatabaseName": "FinanceProject_Dev"
-  }
-}
-```
+### 🔄 Em Desenvolvimento
+- Login com JWT
+- Refresh Token
+- Confirmação de email
+- Recuperação de senha
 
 ---
 
-## 3. Detalhes da Implementação
+## 🏗️ Arquitetura
 
-### Arquitetura
-
-O projeto segue os princípios de **Clean Architecture**, dividido em 4 camadas:
-
-#### 1. **Auth.Domain** (Camada de Domínio)
-- Contém as entidades de negócio, interfaces de repositório e exceções customizadas
-- Não possui dependências de outras camadas
-- Define os contratos (interfaces) que serão implementados nas camadas externas
-
-#### 2. **Auth.Application** (Camada de Aplicação)
-- Contém os casos de uso (Commands/Queries)
-- Implementa validações com FluentValidation
-- Define DTOs para comunicação com a camada de apresentação
-- Usa MediatR para implementar o padrão CQRS
-
-#### 3. **Auth.Infrastructure** (Camada de Infraestrutura)
-- Implementa os repositórios e acesso ao MongoDB
-- Contém serviços de criptografia
-- Gerencia a configuração de banco de dados
-
-#### 4. **Auth.Api** (Camada de Apresentação)
-- Expõe os endpoints REST
-- Contém middleware de tratamento de exceções
-- Configura injeção de dependências
-- Gera documentação OpenAPI/Scalar
-
-### Pipeline de Validação
-
-O projeto utiliza um **ValidationBehavior** que intercepta todas as requisições do MediatR e aplica validações automaticamente:
+O projeto segue **Clean Architecture** com 4 camadas:
 
 ```
-Request → ValidationBehavior → Validators → Handler → Response
+┌─────────────────────────────────────┐
+│   Auth.Api (Apresentação)           │
+│   Controllers, Middleware           │
+└───────────────┬─────────────────────┘
+                │
+┌───────────────▼─────────────────────┐
+│   Auth.Application (Aplicação)      │
+│   Commands, Validators, DTOs        │
+└───────────────┬─────────────────────┘
+                │
+┌───────────────▼─────────────────────┐
+│   Auth.Domain (Domínio)             │
+│   Entities, Interfaces              │
+└───────────────┬─────────────────────┘
+                ▲
+┌───────────────┴─────────────────────┐
+│   Auth.Infrastructure               │
+│   Repositories, Services            │
+└─────────────────────────────────────┘
 ```
 
-Se a validação falhar, uma `ValidationException` é lançada e capturada pelo middleware de exceções.
+**Padrões Utilizados:**
+- ✅ Clean Architecture
+- ✅ CQRS (MediatR)
+- ✅ Repository Pattern
+- ✅ Pipeline Behavior
 
-### Tratamento de Exceções
+---
 
-O `ExceptionHandlingMiddleware` captura e trata exceções globalmente:
+## 🛠️ Stack Tecnológico
 
-| Exceção | Status Code | Descrição |
-|---------|-------------|-----------|
-| `ValidationException` | 400 Bad Request | Erros de validação do FluentValidation |
-| `InvalidUserDataException` | 400 Bad Request | Dados de usuário inválidos |
-| `UserAlreadyExistsException` | 409 Conflict | Usuário já existe (email ou username duplicado) |
-| Outras exceções | 500 Internal Server Error | Erros não tratados |
+| Categoria | Tecnologia |
+|-----------|------------|
+| **Framework** | .NET 10, C# 14.0 |
+| **Banco de Dados** | MongoDB 6.0+ |
+| **Padrões** | CQRS, Repository, Clean Architecture |
+| **Validação** | FluentValidation 11.9 |
+| **Mediator** | MediatR 12.4 |
+| **Documentação** | Scalar, OpenAPI 3.0 |
+| **Segurança** | BCrypt.Net-Next 4.0 |
 
-### Endpoint: Registro de Usuário (v1)
+---
 
-#### POST `/api/v1/authentication/register`
+## 📚 Documentação Completa
 
-Registra um novo usuário no sistema.
+Acesse a [**Wiki**](docs/wiki/HOME.md) para documentação detalhada:
 
-**Request Body:**
-```json
-{
-  "username": "joaosilva",
-  "email": "joao.silva@example.com",
-  "password": "Senha@123",
-  "confirmPassword": "Senha@123"
-}
+### Primeiros Passos
+- 📖 [**Guia de Instalação**](docs/wiki/INSTALLATION.md) - Setup completo passo a passo
+- 🎯 [**Início Rápido**](docs/wiki/QUICK_START.md) - Primeiros comandos (em breve)
+
+### Arquitetura e Design
+- 🏛️ [**Visão Geral da Arquitetura**](docs/wiki/ARCHITECTURE.md) - Clean Architecture detalhada
+- 💻 [**Tecnologias Utilizadas**](docs/wiki/TECHNOLOGIES.md) - Stack técnico completo
+- 🎨 [**Padrões de Design**](docs/wiki/DESIGN_PATTERNS.md) - CQRS, Repository, etc. (em breve)
+
+### Referência da API
+- 🔌 [**Endpoints**](docs/wiki/API_ENDPOINTS.md) - Documentação completa com exemplos cURL
+- 📝 [**Exemplos de Requisições**](docs/wiki/API_EXAMPLES.md) - Postman, JavaScript, Python (em breve)
+- 📊 [**Modelos de Dados**](docs/wiki/DATA_MODELS.md) - Entidades e DTOs (em breve)
+
+---
+
+## 🔥 Exemplo de Uso
+
+### Registrar um Novo Usuário
+
+**Request:**
+```bash
+curl -X POST https://localhost:7035/api/v1/authentication/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "john_doe",
+    "email": "john@example.com",
+    "password": "Senha@123",
+    "confirmPassword": "Senha@123"
+  }'
 ```
 
-**Regras de Validação:**
-
-**Username:**
-- Obrigatório
-- Mínimo de 3 caracteres
-- Máximo de 20 caracteres
-- Apenas letras, números e underscore (_)
-
-**Email:**
-- Obrigatório
-- Formato de email válido
-- Máximo de 100 caracteres
-
-**Password:**
-- Obrigatório
-- Mínimo de 8 caracteres
-- Deve conter pelo menos 1 letra maiúscula
-- Deve conter pelo menos 1 letra minúscula
-- Deve conter pelo menos 1 número
-- Deve conter pelo menos 1 caractere especial
-
-**ConfirmPassword:**
-- Obrigatório
-- Deve ser igual ao campo Password
-
-**Respostas:**
-
-**201 Created** - Usuário criado com sucesso
+**Response (201 Created):**
 ```json
 {
   "message": "User registered successfully"
 }
 ```
 
-**400 Bad Request** - Erros de validação
-```json
-{
-  "statusCode": 400,
-  "message": "Validation errors",
-  "errors": [
-    "Username must have at least 3 characters.",
-    "Password must contain at least one uppercase letter."
-  ]
-}
-```
-
-**409 Conflict** - Usuário já existe
-```json
-{
-  "statusCode": 409,
-  "message": "Email 'joao.silva@example.com' already in use by another user."
-}
-```
-
-**500 Internal Server Error** - Erro interno
-```json
-{
-  "statusCode": 500,
-  "message": "Internal server error"
-}
-```
-
-### Exemplos de Requisições cURL
-
-#### Registro com Sucesso
-
-```bash
-curl -X POST https://localhost:7035/api/v1/authentication/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "joaosilva",
-    "email": "joao.silva@example.com",
-    "password": "Senha@123",
-    "confirmPassword": "Senha@123"
-  }'
-```
-
-### Segurança
-
-1. **Hashing de Senhas:** BCrypt com Enhanced Hashing
-2. **Validação Robusta:** FluentValidation com múltiplas regras
-3. **Middleware de Exceções:** Não expõe detalhes internos em produção
-4. **HTTPS:** Configurado por padrão para ambientes de produção
-
-### Próximas Funcionalidades (Roadmap)
-
-- [ ] Endpoint de Login com JWT
-- [ ] Refresh Token
-- [ ] Confirmação de email
-- [ ] Recuperação de senha
-- [ ] Autenticação de dois fatores (2FA)
-- [ ] Rate limiting
-- [ ] Logging estruturado (Serilog)
+**Mais exemplos:** [API Endpoints](docs/wiki/API_ENDPOINTS.md)
 
 ---
 
-## Contribuindo
+## 🧪 Testes
+
+```bash
+cd src/Auth.Test
+dotnet test
+```
+
+---
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Por favor:
 
 1. Fork o projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
@@ -384,20 +177,50 @@ curl -X POST https://localhost:7035/api/v1/authentication/register \
 4. Push para a branch (`git push origin feature/MinhaFeature`)
 5. Abra um Pull Request
 
----
-
-## Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+Veja [CONTRIBUTING.md](docs/wiki/CONTRIBUTING.md) para mais detalhes (em breve).
 
 ---
 
-## Contato
+## 📝 Roadmap
 
-- GitHub: [@CLJmellem](https://github.com/CLJmellem)
-- Repositório: [AuthenticationAPI](https://github.com/CLJmellem/AuthenticationAPI)
+### v1.1 (Em Breve)
+- [ ] Login com JWT
+- [ ] Refresh Token
+- [ ] Logout
+
+### v1.2 (Planejado)
+- [ ] Confirmação de email
+- [ ] Recuperação de senha
+- [ ] Perfil de usuário
+
+### v2.0 (Futuro)
+- [ ] Autenticação de dois fatores (2FA)
+- [ ] OAuth2 / OpenID Connect
+- [ ] Rate limiting
+- [ ] Logging estruturado (Serilog)
 
 ---
 
-**Última atualização:** Janeiro 2024  
-**Versão da API:** v1
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 📞 Contato
+
+**Autor:** [@CLJmellem](https://github.com/CLJmellem)
+
+**Issues:** [Reportar problema](https://github.com/CLJmellem/AuthenticationAPI/issues)
+
+**Documentação:** [Wiki Completa](docs/wiki/HOME.md)
+
+---
+
+## ⭐ Mostre seu Apoio
+
+Se este projeto foi útil, considere dar uma ⭐ no repositório!
+
+---
+
+**Última atualização:** Janeiro 2024 | **Versão:** v1.0
