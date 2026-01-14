@@ -110,26 +110,6 @@ O projeto segue **Clean Architecture** com 4 camadas:
 | **Segurança** | BCrypt.Net-Next 4.0 |
 
 ---
-
-## 📚 Documentação Completa
-
-Acesse a [**Wiki**](docs/wiki/HOME.md) para documentação detalhada:
-
-### Primeiros Passos
-- 📖 [**Guia de Instalação**](docs/wiki/INSTALLATION.md) - Setup completo passo a passo
-- 🎯 [**Início Rápido**](docs/wiki/QUICK_START.md) - Primeiros comandos (em breve)
-
-### Arquitetura e Design
-- 🏛️ [**Visão Geral da Arquitetura**](docs/wiki/ARCHITECTURE.md) - Clean Architecture detalhada
-- 💻 [**Tecnologias Utilizadas**](docs/wiki/TECHNOLOGIES.md) - Stack técnico completo
-- 🎨 [**Padrões de Design**](docs/wiki/DESIGN_PATTERNS.md) - CQRS, Repository, etc. (em breve)
-
-### Referência da API
-- 🔌 [**Endpoints**](docs/wiki/API_ENDPOINTS.md) - Documentação completa com exemplos cURL
-- 📝 [**Exemplos de Requisições**](docs/wiki/API_EXAMPLES.md) - Postman, JavaScript, Python (em breve)
-- 📊 [**Modelos de Dados**](docs/wiki/DATA_MODELS.md) - Entidades e DTOs (em breve)
-
----
 ## 📝 Roadmap
 
 ### v1.1 (Em Breve)
@@ -161,8 +141,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 **Autor:** [@CLJmellem](https://github.com/CLJmellem)
 
 **Issues:** [Reportar problema](https://github.com/CLJmellem/AuthenticationAPI/issues)
-
-**Documentação:** [Wiki Completa](docs/wiki/HOME.md)
 
 ---
 
