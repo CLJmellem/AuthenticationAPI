@@ -130,57 +130,6 @@ Acesse a [**Wiki**](docs/wiki/HOME.md) para documentação detalhada:
 - 📊 [**Modelos de Dados**](docs/wiki/DATA_MODELS.md) - Entidades e DTOs (em breve)
 
 ---
-
-## 🔥 Exemplo de Uso
-
-### Registrar um Novo Usuário
-
-**Request:**
-```bash
-curl -X POST https://localhost:7035/api/v1/authentication/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "john_doe",
-    "email": "john@example.com",
-    "password": "Senha@123",
-    "confirmPassword": "Senha@123"
-  }'
-```
-
-**Response (201 Created):**
-```json
-{
-  "message": "User registered successfully"
-}
-```
-
-**Mais exemplos:** [API Endpoints](docs/wiki/API_ENDPOINTS.md)
-
----
-
-## 🧪 Testes
-
-```bash
-cd src/Auth.Test
-dotnet test
-```
-
----
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Por favor:
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
-5. Abra um Pull Request
-
-Veja [CONTRIBUTING.md](docs/wiki/CONTRIBUTING.md) para mais detalhes (em breve).
-
----
-
 ## 📝 Roadmap
 
 ### v1.1 (Em Breve)
@@ -214,12 +163,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 **Issues:** [Reportar problema](https://github.com/CLJmellem/AuthenticationAPI/issues)
 
 **Documentação:** [Wiki Completa](docs/wiki/HOME.md)
-
----
-
-## ⭐ Mostre seu Apoio
-
-Se este projeto foi útil, considere dar uma ⭐ no repositório!
 
 ---
 
