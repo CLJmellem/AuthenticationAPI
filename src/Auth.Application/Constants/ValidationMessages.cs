@@ -44,6 +44,8 @@ public static class ValidationMessages
     public const string RequiredUsername = "Username is required";
     /// <summary>The required email</summary>
     public const string RequiredEmail = "Email is required";
+    /// <summary>The required username or email.</summary>
+    public const string RequiredUsernameOrEmail = "Email or username is required";
     /// <summary>The required password</summary>
     public const string RequiredPassword = "Password is required";
     /// <summary>The required confirm password.</summary>

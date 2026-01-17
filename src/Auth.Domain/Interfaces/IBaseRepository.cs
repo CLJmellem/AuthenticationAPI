@@ -30,6 +30,11 @@ namespace Auth.Domain.Interfaces
         /// <returns></returns>
         Task DeleteAsync(ObjectId id);
 
+        /// <summary>Gets the one asynchronous.</summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> filter);
+
         /// <summary>Gets all asynchronous.</summary>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>

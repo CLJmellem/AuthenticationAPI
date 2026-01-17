@@ -56,6 +56,14 @@ namespace Auth.Infrastructure.Repositories
             await _collection.DeleteOneAsync(u => u.Id == id);
         }
 
+        /// <summary>Gets the one asynchronous.</summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        public async Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> filter)
+        {
+            return await _collection.Find(filter).FirstOrDefaultAsync();
+        }
+
         /// <summary>Gets all asynchronous.</summary>
         /// <returns></returns>
         public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter)

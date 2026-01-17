@@ -7,14 +7,14 @@ namespace Auth.Infrastructure.Repositories;
 /// <summary>
 /// UserRepository
 /// </summary>
-/// <seealso cref="Auth.Infrastructure.Repositories.BaseRepository&lt;Auth.Domain.Entities.User&gt;" />
+/// <seealso cref="Auth.Infrastructure.Repositories.BaseRepository&lt;Auth.Domain.Entities.UserInfoDataEntity&gt;" />
 /// <seealso cref="Auth.Domain.Interfaces.IUserRepository" />
-public class UserRepository(MongoDbContext<User> context) : BaseRepository<User>("usersInfo", context), IUserRepository
+public class UserRepository(MongoDbContext<UserInfoDataEntity> context) : BaseRepository<UserInfoDataEntity>("usersInfo", context), IUserRepository
 {
     /// <summary>Gets the by email asynchronous.</summary>
     /// <param name="email">The email.</param>
     /// <returns></returns>
-    public async Task<User?> GetByEmailAsync(string email)
+    public async Task<UserInfoDataEntity?> GetByEmailAsync(string email)
     {
         return (await GetAllAsync(u => u.Email == email)).FirstOrDefault();
     }
@@ -22,7 +22,7 @@ public class UserRepository(MongoDbContext<User> context) : BaseRepository<User>
     /// <summary>Gets the by username asynchronous.</summary>
     /// <param name="username">The username.</param>
     /// <returns></returns>
-    public async Task<User?> GetByUsernameAsync(string username)
+    public async Task<UserInfoDataEntity?> GetByUsernameAsync(string username)
     {
         return (await GetAllAsync(u => u.Username == username)).FirstOrDefault();
     }

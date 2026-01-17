@@ -1,4 +1,4 @@
-﻿namespace Auth.Application.DTOs
+﻿namespace Auth.Application.DTOs.Login
 {
     /// <summary>
     /// The login response dto.

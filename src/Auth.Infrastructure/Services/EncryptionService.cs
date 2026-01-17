@@ -1,4 +1,5 @@
 using Auth.Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,11 +8,10 @@ namespace Auth.Infrastructure.Services;
 /// <summary>
 /// Encryption Service
 /// </summary>
-public class EncryptionService : IEncryptionService
+public class EncryptionService(IConfiguration configuration) : IEncryptionService
 {
     /// <summary>The key</summary>
-    /// Since this is a project example, the key is hardcoded here. In a real-world application, it should be stored securely.
-    public byte[] _key = Convert.FromHexString("02d11fc4ddd4d4ac5c20ac2e6d20724c");
+    public byte[] _key = Convert.FromHexString(configuration["Encryption:Key"]);
 
     /// <summary>Encrypts the specified text to encrypt.</summary>
     /// <param name="textToEncrypt">The text to encrypt.</param>

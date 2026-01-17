@@ -1,4 +1,4 @@
-namespace Auth.Application.DTOs;
+namespace Auth.Application.DTOs.Register;
 
 /// <summary>
 /// Response DTO para registro de usuário
