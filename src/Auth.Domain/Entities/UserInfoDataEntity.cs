@@ -6,13 +6,13 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace Auth.Domain.Entities;
 
 /// <summary>
-/// User
+/// UserInfoDataEntity
 /// </summary>
-/// <remarks>Initializes a new instance of the <see cref="User"/> class.</remarks>
+/// <remarks>Initializes a new instance of the <see cref="UserInfoDataEntity"/> class.</remarks>
 /// <param name="username">The username.</param>
 /// <param name="email">The email.</param>
 /// <param name="passwordHash">The password hash.</param>
-public class User(string username, string email, string passwordHash) : IBaseEntity
+public class UserInfoDataEntity(string username, string email, string passwordHash) : IBaseEntity
 {
     /// <summary>Gets or sets the username.</summary>
     /// <value>The username.</value>

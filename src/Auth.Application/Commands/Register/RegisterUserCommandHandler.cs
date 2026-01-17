@@ -46,9 +46,10 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, s
             throw new UserAlreadyExistsException($"Username '{request.Username}' already in use by another user.");
         }
 
-        var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Password);
+        // Create a password hash using BCrypt with a work factor of 13
+        var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Password, 13);
 
-        var user = new User(
+        var user = new UserInfoDataEntity(
             username: request.Username,
             email: request.Email,
             passwordHash: passwordHash
