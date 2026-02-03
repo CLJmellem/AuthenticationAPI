@@ -1,4 +1,5 @@
-﻿using Auth.Application.Constants;
+﻿using Auth.Application.Bases;
+using Auth.Application.Constants;
 using Auth.Domain.Command.Login;
 using FluentValidation;
 
@@ -7,8 +8,8 @@ namespace Auth.Application.Commands.Login
     /// <summary>
     /// LoginUserCommandValidator
     /// </summary>
-    /// <seealso cref="FluentValidation.AbstractValidator&lt;Auth.Domain.Command.Login.LoginUserCommand&gt;" />
-    public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
+    /// <seealso cref="Auth.Application.Bases.BaseValidators&lt;Auth.Domain.Command.Login.LoginUserCommand&gt;" />
+    public class LoginUserCommandValidator : BaseValidators<LoginUserCommand>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginUserCommandValidator"/> class.

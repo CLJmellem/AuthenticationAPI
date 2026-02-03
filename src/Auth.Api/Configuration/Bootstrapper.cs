@@ -29,9 +29,11 @@ public static class Bootstrapper
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
 
-        services.AddAutoMapper(cfg=> 
-            cfg.AddProfile(typeof(LoginUserProfile))
-        );
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.AddProfile(typeof(LoginUserProfile));
+            cfg.AddProfile(typeof(TokenProfile));
+        });
 
         services.AddControllers();
         services.AddOpenApi();
@@ -40,6 +42,7 @@ public static class Bootstrapper
     public static void RegisterRepositories(IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITokenRepository, TokenRepository>();
     }
 
     public static void RegisterValidators(IServiceCollection services)
