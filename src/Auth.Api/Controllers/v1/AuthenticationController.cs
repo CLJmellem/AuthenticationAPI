@@ -1,12 +1,13 @@
 ﻿using Auth.Application.DTOs.Login;
 using Auth.Application.DTOs.Token;
 using Auth.Application.DTOs.Register;
+using Auth.Application.DTOs.Logout;
 using Auth.Domain.Command.Login;
 using Auth.Domain.Command.Token;
+using Auth.Domain.Command.Logout;
 using Auth.Domain.Commands.Register;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers.v1
@@ -86,12 +87,27 @@ namespace Auth.Api.Controllers.v1
         [ProducesResponseType(typeof(TokenResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<TokenResponseDTO>> Token([FromRoute] string userId)
+        public async Task<ActionResult<TokenResponseDTO>> TokenRefresh([FromRoute] string userId)
         {
             var command = new TokenCommand( userId );
 
             var response = _mapper.Map<TokenResponseDTO>(await _mediator.Send(command)); 
             
+            return Ok(response);
+        }
+
+        /// <summary>Logouts the user.</summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
+        [HttpDelete("logout/{userId}")]
+        [ProducesResponseType(typeof(LogoutResponseDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<LogoutResponseDTO>> Logout([FromRoute] string userId)
+        {
+            var command = new LogoutUserCommand(userId);
+
+            var response = _mapper.Map<LogoutResponseDTO>(await _mediator.Send(command));
+
             return Ok(response);
         }
     }
