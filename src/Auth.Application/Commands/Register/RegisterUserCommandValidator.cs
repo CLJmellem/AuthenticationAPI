@@ -1,3 +1,4 @@
+using Auth.Application.Bases;
 using Auth.Application.Constants;
 using Auth.Domain.Commands.Register;
 using FluentValidation;
@@ -7,8 +8,8 @@ namespace Auth.Application.Commands.Register;
 /// <summary>
 /// RegisterUserCommandValidator
 /// </summary>
-/// <seealso cref="FluentValidation.AbstractValidator&lt;Auth.Domain.Commands.Register.RegisterUserCommand&gt;" />
-public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+/// <seealso cref="Auth.Application.Bases.BaseValidators&lt;Auth.Domain.Commands.Register.RegisterUserCommand&gt;" />
+public class RegisterUserCommandValidator : BaseValidators<RegisterUserCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RegisterUserCommandValidator"/> class.

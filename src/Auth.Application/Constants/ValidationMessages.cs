@@ -21,6 +21,8 @@ public static class ValidationMessages
     public const string RequiresSpecialCharPassword = "Password must contain at least one special character";
     /// <summary>The password not matche</summary>
     public const string PasswordNotMatche = "Passwords do not matche";
+    /// <summary>The invalid user identifier.</summary>
+    public const string InvalidUserId = "UserId is not valid";
     
 
     #endregion Invalid
@@ -50,6 +52,8 @@ public static class ValidationMessages
     public const string RequiredPassword = "Password is required";
     /// <summary>The required confirm password.</summary>
     public const string RequiredConfirmPassword = "Need to confirm password";
+    /// <summary>The required user identifier.</summary>
+    public const string RequiredUserId = "User id is required";
     
     #endregion Required / Empty
 }

@@ -1,18 +1,11 @@
-﻿using Auth.Application.DTOs.Login;
-using Auth.Application.Interfaces;
+﻿using Auth.Application.Interfaces;
 using Auth.Domain.Command.Login;
 using Auth.Domain.Entities;
 using Auth.Domain.Exceptions;
 using Auth.Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+using MongoDB.Bson;
 
 namespace Auth.Application.Commands.Login
 {
@@ -24,6 +17,8 @@ namespace Auth.Application.Commands.Login
     {
         /// <summary>The user repository</summary>
         private readonly IUserRepository _userRepository;
+        /// <summary>The token repository</summary>
+        private readonly ITokenRepository _tokenRepository;
         /// <summary>The token service</summary>
         private readonly ITokenCreationService _tokenService;
         /// <summary>The configuration</summary>
@@ -33,14 +28,17 @@ namespace Auth.Application.Commands.Login
         /// Initializes a new instance of the <see cref="LoginUserCommandHandler"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
+        /// <param name="tokenRepository">The token repository.</param>
         /// <param name="tokenCreationService">The token creation service.</param>
         /// <param name="configuration">The configuration.</param>
         public LoginUserCommandHandler(
                     IUserRepository userRepository,
+                    ITokenRepository tokenRepository,
                     ITokenCreationService tokenCreationService,
                     IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _tokenRepository = tokenRepository;
             _tokenService = tokenCreationService;
             _configuration = configuration;
         }
@@ -62,14 +60,35 @@ namespace Auth.Application.Commands.Login
             {
                 if (!BCrypt.Net.BCrypt.EnhancedVerify(request.Password, user?.PasswordHash))
                     throw new InvalidUserDataException("Invalid password.");
-                
+
                 (string token, DateTime expiration) = _tokenService.GenerateToken(user.Username, user.Role.ToString());
 
-                return new LoginUserCommandResponse() 
-                { 
+                await UpdateOrCreateTokenInDatabase(user.Id, token, expiration);
+
+                return new LoginUserCommandResponse()
+                {
                     Token = token,
                     Expiration = expiration
                 };
+            }
+        }
+
+        private async Task UpdateOrCreateTokenInDatabase(ObjectId userId, string token, DateTime expiration)
+        {
+            var registeredToken = await _tokenRepository.GetOneAsync(t => t.UserId == userId);
+
+            var tokenDataEntity = new TokenDataEntity
+            {
+                UserId = userId,
+                Token = token,
+                ExpireAt = expiration,
+            };
+
+            if (registeredToken == null)
+                await _tokenRepository.CreateAsync(tokenDataEntity);
+            else
+            {
+                await _tokenRepository.UpdateAsync(tokenDataEntity);
             }
         }
     }
