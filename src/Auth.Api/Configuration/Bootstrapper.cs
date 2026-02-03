@@ -1,5 +1,6 @@
 using Auth.Application.Behaviors;
 using Auth.Application.Commands.Login;
+using Auth.Application.Commands.Logout;
 using Auth.Application.Commands.Register;
 using Auth.Application.Interfaces;
 using Auth.Application.Mappers;
@@ -33,6 +34,7 @@ public static class Bootstrapper
         {
             cfg.AddProfile(typeof(LoginUserProfile));
             cfg.AddProfile(typeof(TokenProfile));
+            cfg.AddProfile(typeof(LogoutUserProfile));
         });
 
         services.AddControllers();
@@ -49,5 +51,6 @@ public static class Bootstrapper
     {
         services.AddValidatorsFromAssembly(typeof(RegisterUserCommandValidator).Assembly);
         services.AddValidatorsFromAssembly(typeof(LoginUserCommandValidator).Assembly);
+        services.AddValidatorsFromAssembly(typeof(LogoutUserCommandValidator).Assembly);
     }
 }
